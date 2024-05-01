@@ -68,10 +68,10 @@ class ProductController {
       if(!price) throw { name: 'Price is required' };
       if(!stock) throw { name: 'Stock is required' };
 
-      const updatedProduct = await Product.update({ name, description, price, stock }, { where: { id } }); 
+      await Product.update({ name, description, price, stock }, { where: { id } }); 
       res.status(200).json({ 
         message: 'Product has been updated successfully',
-        product: updatedProduct
+        product: { id: +id, name, description, price, stock }
       });
       
     } catch (error) {
@@ -88,7 +88,7 @@ class ProductController {
       if(!product) throw { name: 'Data not found' };
 
       await Product.destroy({ where: { id } });
-      res.status(200).json({ message: `${product} has been deleted` });
+      res.status(200).json({ message: `${product.name} has been deleted` });
 
     } catch (error) {
       console.error(error);
