@@ -12,6 +12,29 @@ The API supports CRUD (Create, Read, Update, Delete) operations for products. On
 
 Authentication is performed using JSON Web Tokens (JWT). Users must include a valid token in the `Authorization` header of each request to access protected endpoints.
 
+## Getting Started
+
+Installation
+
+```bash
+cd 10xers-labs
+npm install
+# or
+npm i
+```
+
+Running the project
+
+```bash
+npm run dev
+# or
+npx nodemon bin/www
+# or
+node bin/www
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
 ## Endpoints
 
 List of available endpoints:
@@ -51,7 +74,7 @@ Register a new account for either admin or customer.
       "message": "Success creating new account!",
       "newUser": {
         "id": 5,
-        "username": "Admin2",
+        "username": "admin2",
         "password": "123123",
         "role": "Admin",
         "updatedAt": "2024-04-30T16:00:47.933Z",

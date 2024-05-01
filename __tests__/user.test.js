@@ -12,7 +12,6 @@ beforeAll(async () => {
       el.createdAt = new Date()
       el.updatedAt = new Date()
     })
-    console.log(users, "<=== users");
     await queryInterface.bulkInsert('Users', users)
 
   } catch (error) {

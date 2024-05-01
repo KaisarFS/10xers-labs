@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand --forceExit",
-    "dev": "npx nodemon app.js",
+    "dev": "npx nodemon bin/www",
     "remigrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate"
   },
   "keywords": [],
