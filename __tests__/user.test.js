@@ -3,7 +3,6 @@ const app = require('../app')
 const { sequelize } = require('../models')
 const { queryInterface } = sequelize
 const { User } = require('../models')
-let access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc1NjczNzYyfQ.3O3ksy45sn71X7eqqNIEA8rZnbRiQkq_J7u74MYKlsY'
 
 beforeAll(async () => {
   try {
