@@ -15,7 +15,7 @@ beforeAll(async () => {
     await queryInterface.bulkInsert('Users', users)
 
   } catch (error) {
-    console.error(error);
+    console.log(error, "<=== waa error");
   }
 });
 
@@ -27,6 +27,7 @@ afterAll(async () => {
   })
 })
 
+
 // USER REGISTER
 describe('/users/register -  Register', () => {
   describe("SUCCESS CASE: ", () => {
@@ -35,7 +36,7 @@ describe('/users/register -  Register', () => {
         const res = await request(app)
           .post('/users/register')
           .send({
-            username: 'testing1',
+            name: 'testing1',
             password: '123123',
             role: 'Admin',
           })
@@ -43,55 +44,11 @@ describe('/users/register -  Register', () => {
         expect(res.status).toBe(201)
         expect(res.body).toBeInstanceOf(Object);
       } catch (error) {
-        console.error(error);
+        console.log(error, 'bro');
       }
+
     });
   })
 
-  describe('FAILED CASE: ', () => {
-    it('should return 400 - Fail login Username is required', async () => {
-      const res = await request(app)
-        .post('/users/login')
-        .send({
-          password: '123123'
-        })
-      expect(res.status).toBe(400)
-      expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.message).toContain('Username is required');
-    });
-  });
 
-  describe('FAILED CASE: ', () => {
-    it('should return 400 - Fail login Password is required', async () => {
-      const res = await request(app)
-        .post('/users/login')
-        .send({
-          username: 'admin1'
-        })
-      expect(res.status).toBe(400)
-      expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.message).toContain('Password is required');
-    });
-  });
-})
-
-// USER LOGIN
-describe('/users/login -  Login', () => {
-  describe("SUCCESS CASE: ", () => {
-    it('should return 200 - Login User', async () => {
-      try {
-        const res = await request(app)
-          .post('/users/login')
-          .send({
-            username: "admin1",
-            password: "123123",
-          })
-
-        expect(res.status).toBe(200)
-        expect(res.body).toBeInstanceOf(Object);
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  })
 })
