@@ -3,7 +3,6 @@ const app = require('../app')
 const { sequelize } = require('../models')
 const { queryInterface } = sequelize
 const { User } = require('../models')
-let access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc1NjczNzYyfQ.3O3ksy45sn71X7eqqNIEA8rZnbRiQkq_J7u74MYKlsY'
 
 beforeAll(async () => {
   try {
@@ -15,7 +14,7 @@ beforeAll(async () => {
     await queryInterface.bulkInsert('Users', users)
 
   } catch (error) {
-    console.log(error, "<=== waa error");
+    console.error(error);
   }
 });
 
@@ -27,7 +26,6 @@ afterAll(async () => {
   })
 })
 
-
 // USER REGISTER
 describe('/users/register -  Register', () => {
   describe("SUCCESS CASE: ", () => {
@@ -36,7 +34,7 @@ describe('/users/register -  Register', () => {
         const res = await request(app)
           .post('/users/register')
           .send({
-            name: 'testing1',
+            username: 'testing1',
             password: '123123',
             role: 'Admin',
           })
@@ -44,11 +42,95 @@ describe('/users/register -  Register', () => {
         expect(res.status).toBe(201)
         expect(res.body).toBeInstanceOf(Object);
       } catch (error) {
-        console.log(error, 'bro');
+        console.error(error);
       }
-
     });
   })
 
+  describe('FAILED CASE: ', () => {
+    it('should return 400 - Fail login Username is required', async () => {
+      const res = await request(app)
+        .post('/users/login')
+        .send({
+          password: '123123'
+        })
+      expect(res.status).toBe(400)
+      expect(res.body).toBeInstanceOf(Object);
+      expect(res.body.message).toContain('Username is required');
+    });
+  });
 
+  describe('FAILED CASE: ', () => {
+    it('should return 400 - Fail login Password is required', async () => {
+      const res = await request(app)
+        .post('/users/login')
+        .send({
+          username: 'admin1'
+        })
+      expect(res.status).toBe(400)
+      expect(res.body).toBeInstanceOf(Object);
+      expect(res.body.message).toContain('Password is required');
+    });
+  });
+})
+
+// USER LOGIN
+describe('/users/login -  Login', () => {
+  describe("SUCCESS CASE: ", () => {
+    it('should return 200 - Login User', async () => {
+      try {
+        const res = await request(app)
+          .post('/users/login')
+          .send({
+            username: "admin1",
+            password: "123123",
+          })
+
+        expect(res.status).toBe(200)
+        expect(res.body).toBeInstanceOf(Object);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  })
+
+  describe('FAILED CASE: ', () => {
+    it('should return 400 - Fail login Username is required', async () => {
+      const res = await request(app)
+        .post('/users/login')
+        .send({
+          password: '123123'
+        })
+      expect(res.status).toBe(400)
+      expect(res.body).toBeInstanceOf(Object);
+      expect(res.body.message).toContain('Username is required');
+    });
+  });
+
+  describe('FAILED CASE: ', () => {
+    it('should return 400 - Fail login Password is required', async () => {
+      const res = await request(app)
+        .post('/users/login')
+        .send({
+          username: 'admin1'
+        })
+      expect(res.status).toBe(400)
+      expect(res.body).toBeInstanceOf(Object);
+      expect(res.body.message).toContain('Password is required');
+    });
+  });
+
+  describe('FAILED CASE: ', () => {
+    it('should return 404 - Fail login Account not found', async () => {
+      const res = await request(app)
+        .post('/users/login')
+        .send({
+          username: 'xxxxx',
+          password: '123123'
+        })
+      expect(res.status).toBe(404)
+      expect(res.body).toBeInstanceOf(Object);
+      expect(res.body.message).toContain('Account not found');
+    });
+  });
 })
