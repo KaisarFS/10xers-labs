@@ -63,10 +63,10 @@ class ProductController {
       if(!product) throw { name: 'Data not found' };
 
       const { name, description, price, stock } = req.body;
-      if(!name) throw { name: 'Name is required' };
-      if(!description) throw { name: 'Description is required' };
-      if(!price) throw { name: 'Price is required' };
-      if(!stock) throw { name: 'Stock is required' };
+      if(!name) res.status(400).json({ message: 'Name is required' });
+      if(!description) res.status(400).json({ message: 'Description is required' });
+      if(!price) res.status(400).json({ message: 'Price is required' });
+      if(!stock) res.status(400).json({ message: 'Stock is required' });
 
       await Product.update({ name, description, price, stock }, { where: { id } }); 
       res.status(200).json({ 

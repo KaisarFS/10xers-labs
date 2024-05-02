@@ -62,6 +62,46 @@ describe('/products -  CRUD', () => {
             expect(res.body[0]).toHaveProperty('name')
         })
 
+        it('should return 200 - DELETE product By Id', async () => {
+            const res = await request(app)
+                .delete('/products/1')
+                .set("access_token", access_token)
+
+            expect(res.status).toBe(200)
+            expect(res.body).toHaveProperty('message')
+        })
+
+        it('should return 201 - POST product', async () => {
+            const res = await request(app)
+                .post('/products')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(201)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body).toHaveProperty('message');
+            expect(res.body.message).toBe('Product has been created');
+        });
+
+        it('should return 200 - PUT product', async () => {
+            const res = await request(app)
+                .put('/products/2')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test2',
+                    description: 'test2',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(200)
+            expect(res.body).toBeInstanceOf(Object);
+            // expect(res.body).toHaveProperty('message');
+            // expect(res.body.message).toBe('Product has been updated successfully');
+        });
     })
 
     describe('FAILED CASE: ', () => {
@@ -77,6 +117,192 @@ describe('/products -  CRUD', () => {
             const res = await request(app).get('/products/999').set("access_token", access_token)
 
             expect(res.status).toBe(404)
+            expect(res.body).toBeInstanceOf(Object)
+            expect(res.body).toHaveProperty('message')
+        })
+
+        it('should return 500 - GET products By Id - Internal Server Error', async () => {
+            const res = await request(app).get('/products/xx').set("access_token", access_token)
+
+            expect(res.status).toBe(500)
+            expect(res.body).toBeInstanceOf(Object)
+            expect(res.body).toHaveProperty('message')
+        })
+
+        it('should return 400 - POST product - empty product name', async () => {
+            const res = await request(app)
+                .post('/products')
+                .set("access_token", access_token)
+                .send({
+                    id: 5,
+                    // name: 'test',
+                    description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Name is required');
+        });
+
+        it('should return 400 - POST product - empty product name', async () => {
+            const res = await request(app)
+                .post('/products')
+                .set("access_token", access_token)
+                .send({
+                    description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Name is required');
+        });
+
+        it('should return 400 - POST product - empty description', async () => {
+            const res = await request(app)
+                .post('/products')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Description is required');
+        });
+
+        it('should return 400 - POST product - empty price', async () => {
+            const res = await request(app)
+                .post('/products')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Price is required');
+        });
+
+        it('should return 400 - POST product - empty stock', async () => {
+            const res = await request(app)
+                .post('/products')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    price: 1200,
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Stock is required');
+        });
+
+        it('should return 400 - PUT product - empty name', async () => {
+            const res = await request(app)
+                .put('/products/2')
+                .set("access_token", access_token)
+                .send({
+                    // name: 'test',
+                    description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            // expect(res.body.message).toContain('Category Id is required');
+        });
+
+        it('should return 400 - PUT product - empty description', async () => {
+            const res = await request(app)
+                .put('/products/2')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    // description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Description is required');
+        });
+
+        it('should return 400 - PUT product - empty price', async () => {
+            const res = await request(app)
+                .put('/products/2')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    // price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Price is required');
+        });
+
+        it('should return 400 - PUT product - empty stock', async () => {
+            const res = await request(app)
+                .put('/products/2')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    price: 1200,
+                    // stock: 1
+                })
+            expect(res.status).toBe(400)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Stock is required');
+        });
+
+        it('should return 404 - PUT product - Data not found', async () => {
+            const res = await request(app)
+                .put('/products/999')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(404)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Data not found');
+        });
+
+        it('should return 500 - PUT product - Internal Server Error', async () => {
+            const res = await request(app)
+                .put('/products/xxx')
+                .set("access_token", access_token)
+                .send({
+                    name: 'test',
+                    description: 'test',
+                    price: 1200,
+                    stock: 1
+                })
+            expect(res.status).toBe(500)
+            expect(res.body).toBeInstanceOf(Object);
+            expect(res.body.message).toContain('Internal Server Error');
+        });
+
+        it('should return 404 - DELETE products By Id - Data not found', async () => {
+            const res = await request(app).delete('/products/999').set("access_token", access_token)
+
+            expect(res.status).toBe(404)
+            expect(res.body).toBeInstanceOf(Object)
+            expect(res.body).toHaveProperty('message')
+        })
+
+        it('should return 500 - DELETE products By Id - Internal Server Error', async () => {
+            const res = await request(app).delete('/products/xx').set("access_token", access_token)
+
+            expect(res.status).toBe(500)
             expect(res.body).toBeInstanceOf(Object)
             expect(res.body).toHaveProperty('message')
         })

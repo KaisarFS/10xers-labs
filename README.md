@@ -19,8 +19,7 @@ Installation
 ```bash
 cd 10xers-labs
 npm install
-# or
-npm i
+npm run kaboom
 ```
 
 Running the project
@@ -31,6 +30,12 @@ npm run dev
 npx nodemon bin/www
 # or
 node bin/www
+```
+
+Running the Unit Test
+
+```bash
+npm run test
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

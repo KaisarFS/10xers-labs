@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Lunch Box",
+    "description": "Lorem ipsum dolor asit tamet jamet kumaha siaa dolor sidolor dolor",
+    "price": 15000,
+    "stock": 15
+  },
+  {
+    "id": 2,
+    "name": "Dinner Box",
+    "description": "Lorem ipsum dolor asit tamet jamet kumaha siaa dolor sidolor dolor",
+    "price": 15000,
+    "stock": 15
+  }
+]
