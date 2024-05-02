@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --forceExit",
+    "test": "jest --runInBand --forceExit --silent",
     "dev": "npx nodemon bin/www",
+    "seed": "npx sequelize db:seed:all",
+    "kaboom": "npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all",
     "remigrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate"
   },
   "keywords": [],
